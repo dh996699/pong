@@ -11,7 +11,7 @@ export default class Game {
 
     this.gameElement = document.getElementById(this.element);
     this.board = new Board(this.width, this.height);
-    
+
     this.paddleWidth = 8;
     this.paddleHeight = 56;
     this.boardGap = 10;
@@ -24,18 +24,18 @@ export default class Game {
       this.boardGap,
       ((this.height - this.paddleHeight) / 2),
       'yellow',
-      KEYS.a,
-      KEYS.z
+      KEYS.a, //Math.min= 0
+      KEYS.z //Math.max = 256
     );
 
     this.player2 = new Paddle(
       this.height,
       this.paddleWidth,
       this.paddleHeight,
-      (this.width - (this.boardGap+ this.paddleWidth)),//update this line to be 10px from the right
+      (this.width - (this.boardGap + this.paddleWidth)),//update this line to be 10px from the right
       ((this.height - this.paddleHeight) / 2),
       'red',
-      KEYS.up,
+      KEYS.up, 
       KEYS.down
     );
   }

@@ -1,5 +1,7 @@
 import { SVG_NS } from "../settings";
 import { runInThisContext } from "vm";
+import { CLIENT_RENEG_LIMIT } from "tls";
+import pingSound from "../../public/sounds/pong-01.wav";
 
 
 export default class Ball {
@@ -9,6 +11,7 @@ export default class Ball {
       this.boardHeight = boardHeight;
       this.direction = 1;
       this.colour = colour;
+      this.ping = new Audio(pingSound)
 
       this.reset()
     }
@@ -42,8 +45,47 @@ export default class Ball {
 
     }
 
-    render(svg) {
+    paddleCollision(player1, player2) {
+      //moving right
+      if (this.vx > 0) {
+        //collision detection for right paddle
+        if(this.x + this.radius >= player2.x && // right edge of the ball is >= left edge of the paddle
+          this.x + this.radius <= player2.x + player2.width && // right edge of the ball is <= right edge of the paddle
+          (this.y >= player2.y && this.y <= player2.y + player2.height) // ball Y is >= paddle top Y and <= paddle bottom Y
+          )
+          {
+            this.vx *= -1;
+            this.ping.play();
+          }
 
+      } else {
+        if(this.x - this.radius <= player1.x + player1.width && // right edge of the ball is >= left edge of the paddle
+          this.x - this.radius >= player1.x && // right edge of the ball is <= right edge of the paddle
+          (this.y >= player1.y && this.y <= player1.y + player1.height) // ball Y is >= paddle top Y and <= paddle bottom Y
+          )
+          {
+            this.vx *= -1;
+            this.ping.play();
+            let playerColour = player2.colour;
+            player2.colour ='green';
+            //change colour
+            setTimeout (function(){
+              //reset the color
+              player2.colour = playerColour;
+            }, 200);
+          }
+        }
+    }
+
+    goal(player){
+      player.score ++;
+      this.reset();
+      console.log (player.score)
+    }
+
+
+    render(svg, player1, player2) {
+        this.paddleCollision(player1, player2);
         this.x += this.vx;
         this.y += this.vy;
         this.wallCollision()
@@ -52,7 +94,19 @@ export default class Ball {
         circle.setAttributeNS(null, 'cx', this.x);
         circle.setAttributeNS(null, 'cy', this.y);
         circle.setAttributeNS(null, 'fill', this.colour);
-
         svg.appendChild(circle);
+        const rightGoal = this.x + this.radius >= this.boardWidth;
+        const leftGoal = this.x - this.radius <= 0;
+
+        if (rightGoal){
+
+          this.goal (player1);
+          this.direction =1;
+        } else if (leftGoal){
+          this.goal (player2);
+          this.direction = -1;
+        }
+
+        
     }
   }

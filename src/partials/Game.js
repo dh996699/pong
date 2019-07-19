@@ -2,6 +2,7 @@ import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
 import { SVG_NS, KEYS, PaddleOption } from "../settings";
+import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from 'constants';
 
 export default class Game {
 
@@ -32,16 +33,30 @@ export default class Game {
       (this.width - (PaddleOption.boardGap + PaddleOption.paddleWidth)),//update this line to be 10px from the right
       ((this.height - PaddleOption.paddleHeight) / 2),
       'red',
-      KEYS.up, 
+      KEYS. up, 
       KEYS.down
     );
 
     this.ball = new Ball (8, this.width, this.height, 'blue');
+            
+document.addEventListener('keydown', (event) => {
+  switch(event.key){
+    case KEYS.spaceBar:  
+    this.pause = !this.pause;
+    break;
+  }
+});
+
+
   }
 
       
 
   render() {
+    if (this.pause){
+      return;
+      
+    }
     this.gameElement.innerHTML = ''; // clear the html before appending to fix a render bug 🐞
     let svg = document.createElementNS(SVG_NS, "svg");
     svg.setAttributeNS(null, "width", this.width);

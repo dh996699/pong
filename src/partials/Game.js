@@ -2,6 +2,7 @@ import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
 import Score from './Score';
+// import Score from './Winner';
 import { SVG_NS, KEYS, PaddleOption } from "../settings";
 
 export default class Game {
@@ -10,7 +11,6 @@ export default class Game {
     this.element = element;
     this.width = width;
     this.height = height;
-
     this.gameElement = document.getElementById(this.element);
     this.board = new Board(this.width, this.height);
 
@@ -23,7 +23,8 @@ export default class Game {
       ((this.height - PaddleOption.paddleHeight) / 2),
       'yellow',
       KEYS.a,
-      KEYS.z
+      KEYS.z,
+      1
     );
 
     this.player2 = new Paddle(
@@ -34,12 +35,14 @@ export default class Game {
       ((this.height - PaddleOption.paddleHeight) / 2),
       'red',
       KEYS.up,
-      KEYS.down
+      KEYS.down,
+      2
     );
 
-    this.ball = new Ball(8, this.width, this.height, 'blue');
+    this.ball = new Ball(8, this.width, this.height, 'white');
     this.score1= new Score(this.width /2 - 50, 30, 30);
     this.score2= new Score(this.width /2 + 50, 30, 30);
+    // this.winner= new Score(this.width /2 + this.height/2, 30, 30, "winner");
 
     document.addEventListener('keydown', (event) => {
       switch (event.key) {
@@ -48,6 +51,15 @@ export default class Game {
           break;
       }
     });
+
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case KEYS.r:
+          window.location.reload(true);
+      }
+    });
+    
+
   }
 
   render() {
@@ -63,9 +75,9 @@ export default class Game {
     this.board.render(svg);
     this.player1.render(svg);
     this.player2.render(svg);
-    // this.ball.render(svg);
     this.ball.render(svg, this.player1, this.player2);
     this.score1.render(svg, this.player1.score);
     this.score2.render(svg, this.player2.score);
+    
   }
 }

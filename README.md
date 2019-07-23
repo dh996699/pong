@@ -39,3 +39,17 @@ Once you have done this, you can run:
 `$ npm run deploy`
 
 Now check out your deployed site 🙂
+
+# Pong Game 
+
+
+## How to play:
+
+###For Player 1: 
+* Use 'a' and 'z' key to move the paddle up and down.
+
+###For Player 2:
+* Use up and down arrow to move the paddle up and down.
+
+###To reset the score:
+* Press 'r' key.

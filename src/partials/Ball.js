@@ -25,9 +25,9 @@ export default class Ball {
       this.vy = Math.floor(Math.random() * 10 - 5);
     }
 
-    console.log("vy", this.vy);
+    // console.log("vy", this.vy);
     this.vx = this.direction * (6 - Math.abs(this.vy));
-    console.log("vx", this.vx);
+    // console.log("vx", this.vx);
   }
 
   wallCollision() {
@@ -54,7 +54,7 @@ export default class Ball {
         (this.y >= player2.y && this.y <= player2.y + player2.height) // ball Y is >= paddle top Y and <= paddle bottom Y
       ) {
         this.vx *= -1;
-        // this.ping.play();
+        this.ping.play();
 
 
             let playerColour2 = player2.colour;
@@ -64,7 +64,7 @@ export default class Ball {
               //reset the color
               player2.colour = playerColour2;
             }, 200);
-            console.log (playerColour2);
+            
 
 
       }
@@ -75,7 +75,7 @@ export default class Ball {
         (this.y >= player1.y && this.y <= player1.y + player1.height) // ball Y is >= paddle top Y and <= paddle bottom Y
       ) {
         this.vx *= -1;
-        // this.ping.play();
+        this.ping.play();
 
 
         let playerColour1 = player1.colour;
@@ -95,10 +95,18 @@ export default class Ball {
   goal(player) {
     player.score++;
     this.reset();
-    console.log(player.score)
+    if (player.id === 1) {
+      console.log ("Player " + `${player.id}`+ " score the point");
+    }else if
+    (player.id ===2) {
+      console.log ("Player " + `${player.id}` + " score the point");
+    }
+  
+  { 
+
   }
 
-
+  }
   render(svg, player1, player2) {
     this.paddleCollision(player1, player2);
     this.x += this.vx;

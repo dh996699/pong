@@ -1,7 +1,7 @@
 import { SVG_NS, KEYS } from "../settings";
 
 export default class Paddle {
-  constructor(boardHeight, width, height, x, y, colour = 'white', upKey, downKey) {
+  constructor(boardHeight, width, height, x, y, colour = 'white', upKey, downKey, id) {
     this.boardHeight = boardHeight;
     this.width = width;
     this.height = height;
@@ -12,6 +12,7 @@ export default class Paddle {
     this.colour = colour;
     this.upKey = upKey;
     this.downKey = downKey;
+    this.id = id;
 
     this.keyState = {};
 
@@ -23,16 +24,6 @@ export default class Paddle {
       this.keyState[event.key] = false;
     });
 
-    // document.addEventListener("keydown", event => {
-    //   switch (event.key) {
-    //     case up:
-    //       this.up();
-    //       break;
-    //     case down:
-    //       this.down();
-    //       break;
-    //   }
-    // });
   }
   
   up(){

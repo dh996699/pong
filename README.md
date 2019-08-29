@@ -26,7 +26,7 @@ To deploy your finished Pong project as a GitHub page, you must first **update t
 
 For example, if your repo URL is:
 
-https://github.com/bob/pong-project
+https://github.com/bob/pong
 
 Update the `predeploy` script as follows:
 
